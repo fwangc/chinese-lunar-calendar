@@ -23,11 +23,19 @@ const heavenlyStems = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "
 const earthlyBranches = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"];
 const minSupported = new Date(1900, 0, 31);
 const maxSupported = new Date(2049, 11, 31);
+const specialDates = [
+  {
+    month: 6,
+    day: 6,
+    label: "Fan's birthday"
+  }
+];
 
 const els = {
   grid: document.querySelector("#calendarGrid"),
   title: document.querySelector("#monthTitle"),
   selectedGregorian: document.querySelector("#selectedGregorian"),
+  selectedSpecial: document.querySelector("#selectedSpecial"),
   selectedLunar: document.querySelector("#selectedLunar"),
   selectedZodiac: document.querySelector("#selectedZodiac"),
   selectedGanzhi: document.querySelector("#selectedGanzhi"),
@@ -122,6 +130,12 @@ function sameDay(a, b) {
   return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
 }
 
+function getSpecialDate(date) {
+  return specialDates.find((specialDate) => {
+    return date.getMonth() === specialDate.month && date.getDate() === specialDate.day;
+  });
+}
+
 function formatGregorian(date) {
   return new Intl.DateTimeFormat("en", {
     weekday: "long",
@@ -162,12 +176,15 @@ function renderCalendar() {
     if (cellDate.getMonth() !== visibleDate.getMonth()) button.classList.add("is-muted");
     if (sameDay(cellDate, selectedDate)) button.classList.add("is-selected");
     if (sameDay(cellDate, new Date())) button.classList.add("is-today");
+    const specialDate = getSpecialDate(cellDate);
+    if (specialDate) button.classList.add("is-special");
 
     button.innerHTML = `
       <span class="solar-day">${cellDate.getDate()}</span>
       <span>
         <span class="lunar-day">${lunar ? dayNames[lunar.day - 1] : "Out of range"}</span>
         <span class="lunar-month">${lunar ? lunarMonthLabel(lunar) : ""}</span>
+        ${specialDate ? `<span class="special-label">${specialDate.label}</span>` : ""}
       </span>
     `;
 
@@ -186,7 +203,9 @@ function renderCalendar() {
 
 function renderDetails() {
   const lunar = toLunar(selectedDate);
+  const specialDate = getSpecialDate(selectedDate);
   els.selectedGregorian.textContent = formatGregorian(selectedDate);
+  els.selectedSpecial.textContent = specialDate ? specialDate.label : "-";
 
   if (!lunar) {
     els.selectedLunar.textContent = "Out of supported range";
