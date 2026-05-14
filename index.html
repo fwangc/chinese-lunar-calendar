@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lunar Date Mapper</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="calendar-panel" aria-label="Gregorian and Chinese lunar calendar">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Chinese Lunar Calendar</p>
+            <h1 id="monthTitle">Month</h1>
+          </div>
+          <div class="controls" aria-label="Calendar controls">
+            <button class="icon-button" id="prevMonth" type="button" aria-label="Previous month" title="Previous month">
+              <span aria-hidden="true">‹</span>
+            </button>
+            <button id="todayButton" type="button">Today</button>
+            <button class="icon-button" id="nextMonth" type="button" aria-label="Next month" title="Next month">
+              <span aria-hidden="true">›</span>
+            </button>
+          </div>
+        </header>
+
+        <div class="weekday-grid" aria-hidden="true">
+          <span>Sun</span>
+          <span>Mon</span>
+          <span>Tue</span>
+          <span>Wed</span>
+          <span>Thu</span>
+          <span>Fri</span>
+          <span>Sat</span>
+        </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+      </section>
+
+      <aside class="detail-panel" aria-label="Selected date details">
+        <div class="moon-visual" aria-hidden="true">
+          <div class="moon-disc" id="moonDisc"></div>
+        </div>
+        <p class="detail-kicker">Selected Date</p>
+        <h2 id="selectedGregorian">Date</h2>
+        <div class="detail-stack">
+          <div>
+            <span class="label">Lunar date</span>
+            <strong id="selectedLunar">-</strong>
+          </div>
+          <div>
+            <span class="label">Zodiac year</span>
+            <strong id="selectedZodiac">-</strong>
+          </div>
+          <div>
+            <span class="label">Cycle year</span>
+            <strong id="selectedGanzhi">-</strong>
+          </div>
+          <div>
+            <span class="label">Lunar month length</span>
+            <strong id="selectedMonthLength">-</strong>
+          </div>
+        </div>
+        <p class="range-note">Supports Gregorian dates from 1900-01-31 through 2049-12-31.</p>
+      </aside>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
